@@ -1,14 +1,17 @@
 import React, {Component} from "react";
 import { GitCommit } from "./app";
 import axios from "axios";
+import Octokit from '@octokit/rest';
 
 export default class CommitsList extends Component<any, any> {
 
     private timerId: NodeJS.Timeout | null = null;
+    private octokit: Octokit;
 
     constructor(props: Readonly<any>) {
         super(props);
         this.state = {commits: new Array<GitCommit>()}
+        this.octokit = new Octokit();
     }
 
     async componentDidMount(): Promise<void> {
@@ -34,11 +37,12 @@ export default class CommitsList extends Component<any, any> {
     }
 
     private async updateGithubCommits(): Promise<void> {
-        const commits = await CommitsList.getGithubCommits();
+        const commits = await this.getGithubCommits();
         this.setState({commits})
     }
 
-    private static async getGithubCommits(): Promise<GitCommit[]> {
+    private async getGithubCommits(): Promise<GitCommit[]> {
+        // const s = this.octokit.search.commits({})
         const response = await axios.get('https://api.github.com/repos/rcoops/react-ts-app/commits');
         const commits = response.data.map((d: any) =>
             ({sha: d?.sha, author: d?.author?.login, message: d?.commit?.message })
