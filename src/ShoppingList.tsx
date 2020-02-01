@@ -1,15 +1,12 @@
-import React from "react";
+import React, {Component} from "react";
 
-
-export class ShoppingList extends React.Component<any, any> {
+export default class ShoppingList extends Component<any, any> {
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
         return (
             <div className={"shopping-list"}>
-                <h1>Shopping List for {this.props.name}</h1>
+                <h1>Git Commits for {this.props.name}'s repo</h1>
                 <ul>
-                    <li>Instagram</li>
-                    <li>WhatsApp</li>
-                    <li>Oculus</li>
+                    {this.props.gitCommits.map((value: string) => (<li>{value}</li>))}
                 </ul>
             </div>
         );
