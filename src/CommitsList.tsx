@@ -38,6 +38,7 @@ export default class CommitsList extends Component<any, any> {
         this.setState({commits})
     }
 
+    // this is cool
     private static async getGithubCommits(): Promise<GitCommit[]> {
         const response = await axios.get('https://api.github.com/repos/rcoops/react-ts-app/commits');
         const commits = response.data.map((d: any) =>
